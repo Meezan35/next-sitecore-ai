@@ -1,0 +1,39 @@
+{
+  "name": "next-sitecore-ai",
+  "version": "0.0.1",
+  "description": "AI toolkit for Sitecore JSS on Next.js",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "next": ">=14.0.0 <15",
+    "react": ">=18.0.0",
+    "@sitecore-jss/sitecore-jss-nextjs": ">=22.0.0 <22.7.0"
+  },
+  "dependencies": {
+    "ai": "^4.3.16"
+  },
+  "devDependencies": {
+    "@sitecore-jss/sitecore-jss-nextjs": "~22.6.0",
+    "@types/node": "^22.15.30",
+    "@types/react": "^18.3.23",
+    "tsup": "^8.5.0",
+    "typescript": "^5.8.3"
+  }
+}

@@ -9,9 +9,16 @@
     "build": "npm run build --workspaces --if-present",
     "dev": "npm run dev --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present",
-    "typecheck": "npm run typecheck --workspaces --if-present"
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "ingest": "tsx scripts/ingest.ts"
   },
   "engines": {
     "node": ">=18"
+  },
+  "devDependencies": {
+    "@supabase/supabase-js": "^2.108.2",
+    "dotenv": "^17.4.2",
+    "tsx": "^4.22.4",
+    "typescript": "^5.8.3"
   }
 }

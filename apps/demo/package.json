@@ -10,6 +10,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@ai-sdk/openai": "^3.0.74",
+    "ai": "^6.0.208",
     "next": "^14.2.30",
     "next-sitecore-ai": "*",
     "react": "^18.3.1",

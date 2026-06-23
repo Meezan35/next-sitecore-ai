@@ -7,7 +7,6 @@ export interface ContentChunk {
   language: string;
 }
 
-const MIN_FIELD_LENGTH = 20;
 const WORDS_PER_CHUNK = 500;
 const WORD_OVERLAP = 50;
 
@@ -45,6 +44,15 @@ function splitIntoWordChunks(text: string): string[] {
   return chunks;
 }
 
+function isUrl(text: string): boolean {
+  try {
+    new URL(text);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 /**
  * Splits Sitecore field text into RAG-ready content chunks.
  */
@@ -60,9 +68,7 @@ export function chunkContent(params: {
   const chunks: ContentChunk[] = [];
 
   for (const [fieldName, value] of Object.entries(fields)) {
-    if (value.length < MIN_FIELD_LENGTH) {
-      continue;
-    }
+    if (value.length < 20 || isUrl(value.trim())) continue;
 
     const textChunks = splitIntoWordChunks(value);
 

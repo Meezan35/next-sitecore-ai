@@ -6,7 +6,7 @@ import {
   createEdgeClient,
   createEmbedder,
   type ContentChunk,
-} from "next-sitecore-ai";
+} from "next-sitecore-ai/server";
 
 loadEnv({ path: resolve(process.cwd(), ".env.local") });
 

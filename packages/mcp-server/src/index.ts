@@ -5,12 +5,10 @@ import {
   CallToolRequestSchema,
   ListToolsRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
-import { VERSION } from "next-sitecore-ai";
-
 const server = new Server(
   {
     name: "next-sitecore-ai",
-    version: VERSION,
+    version: "0.0.1",
   },
   {
     capabilities: {

@@ -102,12 +102,14 @@ export function createRAGQuery(config: RAGConfig) {
     async query(question: string): Promise<RAGResult> {
       const embedding = await embedQuestion(question);
 
-      const { data, error } = await supabase.rpc("match_sitecore_content", {
-        query_embedding: embedding,
-        match_threshold: matchThreshold,
-        match_count: matchCount,
-        site_name: config.siteName,
-      });
+     const { data, error } = await supabase.rpc("match_sitecore_content", {
+  query_embedding: embedding,
+  match_threshold: matchThreshold,
+  match_count: matchCount,
+  filter_site_name: config.siteName,
+})
+
+console.log('RAG debug:', { error, resultCount: data?.length, siteName: config.siteName, matchThreshold })
 
       if (error) {
         throw new Error(
@@ -126,6 +128,7 @@ export function createRAGQuery(config: RAGConfig) {
       }
 
       const context = formatContext(matches);
+      
       const prompt = `Context:\n${context}\n\nQuestion: ${question}`;
 
       const result = streamText({

@@ -12,8 +12,12 @@ loadEnv({ path: resolve(process.cwd(), ".env.local") });
 
 const ITEM_PATHS = [
   "/sitecore/content/Sheppard/sheppard/Home/Data/Hero Banner Folder/Hero Banner",
-  "/sitecore/content/Sheppard/sheppard/Home/Data/Placeholder Folder/Placeholder Item One",
-  "/sitecore/content/Sheppard/sheppard/Home/Data/Placeholder Folder/Placeholder Item Two",
+  "/sitecore/content/Sheppard/sheppard/Home/Data/PromoModule",
+  "/sitecore/content/Sheppard/sheppard/Home/Data/PromoModule1",
+  "/sitecore/content/Sheppard/sheppard/Home/Data/Content Card",
+  "/sitecore/content/Sheppard/sheppard/Home/Data/Quote",
+  "/sitecore/content/Sheppard/sheppard/Home/About Us",
+  "/sitecore/content/Sheppard/sheppard/Home/Capabilities",
 ];
 
 function requireEnv(name: string): string {

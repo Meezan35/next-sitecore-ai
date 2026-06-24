@@ -58,7 +58,7 @@ export async function POST(request: Request): Promise<Response> {
       supabaseServiceRoleKey: requireEnv("SUPABASE_SERVICE_ROLE_KEY"),
       openAiApiKey: requireEnv("OPENAI_API_KEY"),
       siteName: requireEnv("SITECORE_SITE_NAME"),
-      matchThreshold: 0.1,
+      matchThreshold: 0.3,
       matchCount: 5,
     });
 

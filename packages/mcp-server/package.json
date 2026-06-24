@@ -14,12 +14,16 @@
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
+    "prepare": "tsup",
     "start": "node dist/index.js",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.12.1",
-    "next-sitecore-ai": "*"
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "@supabase/supabase-js": "^2.108.2",
+    "next-sitecore-ai": "*",
+    "openai": "^6.44.0",
+    "dotenv": "^17.4.2"
   },
   "devDependencies": {
     "tsup": "^8.5.0",

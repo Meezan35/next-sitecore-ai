@@ -10,15 +10,17 @@ import {
 
 loadEnv({ path: resolve(process.cwd(), ".env.local") });
 
-const ITEM_PATHS = [
-  "/sitecore/content/Sheppard/sheppard/Home/Data/Hero Banner Folder/Hero Banner",
-  "/sitecore/content/Sheppard/sheppard/Home/Data/PromoModule",
-  "/sitecore/content/Sheppard/sheppard/Home/Data/PromoModule1",
-  "/sitecore/content/Sheppard/sheppard/Home/Data/Content Card",
-  "/sitecore/content/Sheppard/sheppard/Home/Data/Quote",
+const ROOT_PATHS = [
+  "/sitecore/content/Sheppard/sheppard/Home/Data",
   "/sitecore/content/Sheppard/sheppard/Home/About Us",
   "/sitecore/content/Sheppard/sheppard/Home/Capabilities",
+  "/sitecore/content/Sheppard/sheppard/Home/People",
 ];
+
+const MAX_ITEMS = 50;
+const CONTENT_FETCH_DELAY_MS = 100;
+
+type EdgeClient = ReturnType<typeof createEdgeClient>;
 
 function requireEnv(name: string): string {
   const value = process.env[name];
@@ -28,6 +30,49 @@ function requireEnv(name: string): string {
   }
 
   return value;
+}
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function shouldSkipItem(name: string): boolean {
+  return name.startsWith("__") || name === "Data";
+}
+
+/**
+ * Recursively discovers Sitecore item paths that contain text content.
+ */
+async function discoverItemPaths(
+  rootPath: string,
+  edgeClient: EdgeClient,
+  depth = 0,
+): Promise<string[]> {
+  if (depth > 5) {
+    return [];
+  }
+
+  const children = await edgeClient.getItemChildren(rootPath);
+  const results: string[] = [];
+
+  for (const child of children) {
+    if (shouldSkipItem(child.name)) {
+      continue;
+    }
+
+    const childPath = child.path ?? `${rootPath}/${child.name}`;
+    const fields = await edgeClient.getTextContent(childPath);
+    await sleep(CONTENT_FETCH_DELAY_MS);
+
+    if (Object.keys(fields).length > 0) {
+      results.push(childPath);
+    }
+
+    const nested = await discoverItemPaths(childPath, edgeClient, depth + 1);
+    results.push(...nested);
+  }
+
+  return [...new Set(results)];
 }
 
 /**
@@ -53,11 +98,37 @@ export async function main(): Promise<void> {
     openAiApiKey: requireEnv("OPENAI_API_KEY"),
   });
 
+  const discoveredPaths: string[] = [];
+
+  for (const rootPath of ROOT_PATHS) {
+    const paths = await discoverItemPaths(rootPath, edge);
+
+    for (const path of paths) {
+      if (!discoveredPaths.includes(path)) {
+        discoveredPaths.push(path);
+      }
+    }
+  }
+
+  console.log(`Discovered ${discoveredPaths.length} items to ingest`);
+
+  let itemPaths = discoveredPaths;
+
+  if (itemPaths.length > MAX_ITEMS) {
+    console.warn(
+      `Capping ingestion at ${MAX_ITEMS} items to avoid OpenAI rate limits`,
+    );
+    itemPaths = itemPaths.slice(0, MAX_ITEMS);
+  }
+
   const allChunks: ContentChunk[] = [];
   let itemsProcessed = 0;
 
-  for (const itemPath of ITEM_PATHS) {
+  for (const itemPath of itemPaths) {
+    console.log(`Processing ${itemPath}`);
+
     const fields = await edge.getTextContent(itemPath);
+    await sleep(CONTENT_FETCH_DELAY_MS);
 
     if (Object.keys(fields).length === 0) {
       console.log(`No content found for ${itemPath}, skipping`);

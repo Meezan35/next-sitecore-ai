@@ -71,13 +71,14 @@ export function chunkContent(params: {
     if (value.length < 20 || isUrl(value.trim())) continue;
 
     const textChunks = splitIntoWordChunks(value);
+    const fieldChunks: ContentChunk[] = [];
 
     for (const content of textChunks) {
       if (params.maxTokens !== undefined && estimateTokens(content) > params.maxTokens) {
         continue;
       }
 
-      chunks.push({
+      fieldChunks.push({
         itemPath,
         itemName,
         fieldName,
@@ -86,6 +87,14 @@ export function chunkContent(params: {
         language,
       });
     }
+
+    if (fieldChunks.length > 1) {
+      for (let index = 0; index < fieldChunks.length; index++) {
+        fieldChunks[index].fieldName = `${fieldName}_${index}`;
+      }
+    }
+
+    chunks.push(...fieldChunks);
   }
 
   return chunks;

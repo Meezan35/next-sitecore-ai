@@ -35,28 +35,10 @@ function mapSearchResults(rows: MatchSitecoreContentRow[]): SearchResult[] {
 }
 
 const MOCK_ORIGINAL_RESULTS: SearchResult[] = [
-  {
-    id: "mock-1",
-    title: "Result 1",
-    url: "/mock/result-1",
-    description: "Generic placeholder search result for demo comparison.",
-    score: 0.9,
-  },
-  {
-    id: "mock-2",
-    title: "Result 2",
-    url: "/mock/result-2",
-    description: "Generic placeholder search result for demo comparison.",
-    score: 0.7,
-  },
-  {
-    id: "mock-3",
-    title: "Result 3",
-    url: "/mock/result-3",
-    description: "Generic placeholder search result for demo comparison.",
-    score: 0.5,
-  },
-];
+  { id: 'kw-1', title: 'Legal Services Overview', url: '/services', description: 'Overview of all legal services offered by the firm across practice areas.', score: 0.9 },
+  { id: 'kw-2', title: 'Practice Areas', url: '/practices', description: 'Browse our full list of practice areas including litigation, corporate, and advisory.', score: 0.7 },
+  { id: 'kw-3', title: 'Industry Groups', url: '/industries', description: 'Specialized legal counsel across industries including technology, finance, and healthcare.', score: 0.5 },
+]
 
 /**
  * Returns AI-enhanced search results compared against mock baseline results.

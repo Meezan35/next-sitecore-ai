@@ -16,7 +16,7 @@ export interface LinkFieldValue {
 
 export interface SitecoreField {
   name: string;
-  jsonValue: { value: SitecoreFieldValue } | unknown[];
+  jsonValue: { value: SitecoreFieldValue } | unknown[] | null;
 }
 
 export interface SitecoreItem {
@@ -95,7 +95,7 @@ function isSystemField(fieldName: string): boolean {
 function extractTextValue(field: SitecoreField): string {
   const { jsonValue } = field;
 
-  if (Array.isArray(jsonValue)) {
+  if (jsonValue === null || jsonValue === undefined || Array.isArray(jsonValue)) {
     return "";
   }
 

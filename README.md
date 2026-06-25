@@ -47,7 +47,17 @@ Add these to `.env.local`:
 
 **3. Run the ingestion script**
 
-Copy [`scripts/ingest.ts`](scripts/ingest.ts) into your project, then:
+Copy [`scripts/ingest.ts`](scripts/ingest.ts) into your project. Update the `ROOT_PATHS` array with your own Sitecore content paths:
+
+```ts
+const ROOT_PATHS = [
+  '/sitecore/content/YourSite/yoursite/Home/Data',
+  '/sitecore/content/YourSite/yoursite/Home/About',
+  // add any root paths you want to crawl recursively
+]
+```
+
+The script discovers all content items recursively under each root path, skips items with no meaningful text, and caps at 50 items per run to avoid rate limits. Then run:
 
 ```bash
 npx tsx scripts/ingest.ts

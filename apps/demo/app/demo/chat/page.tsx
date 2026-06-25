@@ -15,6 +15,13 @@ type ChatExchange = {
   sources: RagSource[];
 };
 
+const EXAMPLE_QUESTIONS = [
+  'What practice areas does the firm cover?',
+  'What does the hero banner say about the firm?',
+  "Tell me about the firm's client solutions",
+  "What is the firm's approach to appellate litigation?",
+];
+
 export default function ChatDemoPage() {
   const [messages, setMessages] = useState<ChatExchange[]>([]);
   const [pendingQuestion, setPendingQuestion] = useState<string | null>(null);
@@ -60,10 +67,7 @@ export default function ChatDemoPage() {
     },
   });
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const question = input.trim();
-
+  const submitQuestion = async (question: string) => {
     if (!question || isLoading) {
       return;
     }
@@ -71,6 +75,15 @@ export default function ChatDemoPage() {
     setPendingQuestion(question);
     setInput('');
     await complete(question, { body: { question } });
+  };
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    await submitQuestion(input.trim());
+  };
+
+  const handleExampleClick = (question: string) => {
+    void submitQuestion(question);
   };
 
   return (
@@ -140,6 +153,27 @@ export default function ChatDemoPage() {
         <p className="mt-4 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-900 dark:bg-red-950 dark:text-red-300">
           {error.message}
         </p>
+      ) : null}
+
+      {messages.length === 0 && !pendingQuestion ? (
+        <div className="mt-4">
+          <p className="text-sm font-medium text-zinc-600 dark:text-zinc-400">
+            Try asking:
+          </p>
+          <div className="mt-2 flex flex-wrap gap-2">
+            {EXAMPLE_QUESTIONS.map((question) => (
+              <button
+                key={question}
+                type="button"
+                onClick={() => handleExampleClick(question)}
+                disabled={isLoading}
+                className="rounded-full border border-zinc-200 bg-zinc-50 px-3 py-1.5 text-xs text-zinc-700 transition hover:border-zinc-400 hover:bg-zinc-100 disabled:opacity-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-zinc-500 dark:hover:bg-zinc-700"
+              >
+                {question}
+              </button>
+            ))}
+          </div>
+        </div>
       ) : null}
 
       <form onSubmit={handleSubmit} className="mt-4 flex gap-2">

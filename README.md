@@ -6,7 +6,7 @@ An open-source AI toolkit that brings RAG, semantic search, and content suggesti
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 
-**[Live Demo](https://your-demo-url.vercel.app)** · **[npm](https://npmjs.com/package/next-sitecore-ai)**
+**[Live Demo](https://next-sitecore-ai-demo.vercel.app)** · **[npm](https://npmjs.com/package/next-sitecore-ai)**
 
 ## Why this exists
 

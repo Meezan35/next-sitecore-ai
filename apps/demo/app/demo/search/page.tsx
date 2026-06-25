@@ -79,7 +79,7 @@ export default function SearchDemoPage() {
               handleSearch();
             }
           }}
-          placeholder="Search ingested content…"
+          placeholder="Try: law firm capabilities, appellate litigation, client solutions..."
           className="flex-1 rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-900"
         />
         <button

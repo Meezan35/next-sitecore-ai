@@ -31,6 +31,10 @@ export default function HomePage() {
         <p className="mt-4 text-lg text-zinc-600 dark:text-zinc-400">
           An open-source AI toolkit for Sitecore XM Cloud + Next.js
         </p>
+       <p className="mx-auto mt-6 max-w-xl text-sm leading-relaxed text-zinc-500 dark:text-zinc-500">
+  Powered by a real Sitecore XM Cloud instance — 50 content items ingested 
+  into pgvector via Experience Edge, searchable and queryable with natural language.
+</p>
       </div>
 
       <div className="mt-12 grid gap-4 sm:grid-cols-3">
@@ -47,7 +51,7 @@ export default function HomePage() {
               {demo.description}
             </p>
             <span className="mt-4 inline-block text-sm font-medium text-blue-600 dark:text-blue-400">
-              Open demo →
+              Open demo &rarr;
             </span>
           </Link>
         ))}

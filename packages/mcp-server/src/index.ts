@@ -9,7 +9,9 @@ import {
 import {
   createEdgeClient,
   createRAGQuery,
+  type RAGResult,
   type SitecoreField,
+  type SitecoreItem,
 } from "next-sitecore-ai/server";
 
 const SERVER_NAME = "sitecore-xm-cloud";
@@ -189,7 +191,9 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       try {
         const itemPath = toolArgs.itemPath;
         if (typeof itemPath !== "string" || !itemPath) {
-          return toolError(new Error("itemPath is required and must be a string"));
+          return toolError(
+            new Error("itemPath is required and must be a string"),
+          );
         }
 
         const item = await edgeClient.getItem(itemPath);
@@ -206,7 +210,10 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           id: item.id,
           name: item.name,
           fields: Object.fromEntries(
-            item.fields.map((field) => [field.name, fieldValue(field)]),
+            item.fields.map((field: SitecoreField) => [
+              field.name,
+              fieldValue(field),
+            ]),
           ),
         };
 
@@ -222,7 +229,9 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       try {
         const itemPath = toolArgs.itemPath;
         if (typeof itemPath !== "string" || !itemPath) {
-          return toolError(new Error("itemPath is required and must be a string"));
+          return toolError(
+            new Error("itemPath is required and must be a string"),
+          );
         }
 
         const content = await edgeClient.getTextContent(itemPath);
@@ -231,7 +240,10 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         if (entries.length === 0) {
           return {
             content: [
-              { type: "text", text: `No text content found at path: ${itemPath}` },
+              {
+                type: "text",
+                text: `No text content found at path: ${itemPath}`,
+              },
             ],
           };
         }
@@ -263,7 +275,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
         const text = sources
           .map(
-            (source, index) =>
+            (source: RAGResult["sources"][number], index: number) =>
               `${index + 1}. Item: ${source.itemName}\n   Field: ${source.fieldName}\n   Content: ${source.content}\n   Similarity: ${source.similarity.toFixed(4)}`,
           )
           .join("\n\n");
@@ -293,7 +305,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
         const text = children
           .map(
-            (child, index) =>
+            (child: SitecoreItem, index: number) =>
               `${index + 1}. ${child.name}\n   Path: ${joinItemPath(rootPath, child.name)}`,
           )
           .join("\n\n");

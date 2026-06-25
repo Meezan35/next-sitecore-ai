@@ -1,7 +1,29 @@
 {
   "name": "next-sitecore-ai",
-  "version": "0.0.1",
-  "description": "AI toolkit for Sitecore JSS on Next.js",
+  "version": "0.1.0",
+  "description": "AI toolkit for Sitecore XM Cloud + Next.js — RAG, semantic search, content suggestions, and MCP server",
+  "author": "Meezan35",
+  "license": "MIT",
+  "keywords": [
+    "sitecore",
+    "nextjs",
+    "ai",
+    "llm",
+    "rag",
+    "xm-cloud",
+    "headless-cms",
+    "experience-edge",
+    "mcp",
+    "vector-search"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Meezan35/next-sitecore-ai.git"
+  },
+  "homepage": "https://github.com/Meezan35/next-sitecore-ai",
+  "bugs": {
+    "url": "https://github.com/Meezan35/next-sitecore-ai/issues"
+  },
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
